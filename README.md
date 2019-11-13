@@ -7,11 +7,13 @@ New Boris bikes ( Santander Cycles) system that shows a network of docking stati
 - RSPEC
 
 ## Installing
-'''gem install rspec'''
+```ruby
+gem install rspec
+```
 
 ## Running the tests
 
-- TDD
+- Unit Tesing
 
 ## Built on
 
