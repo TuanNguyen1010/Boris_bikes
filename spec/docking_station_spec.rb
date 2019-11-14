@@ -19,7 +19,9 @@ describe DockingStation do
       end
     end
 
-    # it { is_expected.to respond_to(:dock).with(1).argument }
+    it { is_expected.to respond_to(:dock).with(1).argument }
+    it { is_expected.to respond_to(:bikes) }
+    it { is_expected.to respond_to(:release_bike)}
     #
     # it 'docks something' do
     #   bike = Bike.new
