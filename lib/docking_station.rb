@@ -12,6 +12,7 @@ class DockingStation
 
   def release_bike
     fail 'No bikes available' if empty?
+    fail 'No working bikes available' if none_work?
     @bikes.pop
   end
 
@@ -19,7 +20,8 @@ class DockingStation
     # Use an instance variable to store the bike
     # in the 'state' of this instance
     fail 'No spaces available' if full?
-    @bikes << bike
+    bike.report_defect if rand() > 0.5
+    @bikes << bike.working
   end
 
   private
@@ -28,5 +30,9 @@ class DockingStation
   end
   def empty?
     @bikes.empty?
+  end
+  def none_work?
+    @bikes.each { |bike| return false if bike == true }
+    true
   end
 end

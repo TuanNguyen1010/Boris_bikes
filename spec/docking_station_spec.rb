@@ -12,12 +12,18 @@ describe DockingStation do
   end
 
   describe '#release_bike' do
+    station = DockingStation.new
     it 'raises an error when there are no bikes available' do
-      station = DockingStation.new
       # we want to release the bike we docked
       # the reason we use curly braces instead of parentheses can be explained here
       # https://stackoverflow.com/questions/21567838/when-to-use-curly-braces-vs-parenthesis-in-expect-rspec-method
       expect{ station.release_bike }.to raise_error(RuntimeError, 'No bikes available')
+    end
+    it 'raises an error when there are no working bikes available' do
+      bike = Bike.new
+      bike.report_defect
+      station.dock(bike)
+      expect { station.release_bike }.to raise_error(RuntimeError, 'No working bikes available')
     end
   end
 
@@ -27,6 +33,13 @@ describe DockingStation do
       station = DockingStation.new
       20.times { station.dock Bike.new }
       expect{ station.dock Bike.new }.to raise_error(RuntimeError, 'No spaces available')
+    end
+    it 'can store broken bikes' do
+      station = DockingStation.new
+      bike = Bike.new
+      bike.report_defect
+      station.dock(bike)
+      expect( station.bikes.first ).to eq(false)
     end
   end
 
