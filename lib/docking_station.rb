@@ -21,7 +21,7 @@ class DockingStation
     # in the 'state' of this instance
     fail 'No spaces available' if full?
     bike.report_defect if rand() > 0.5
-    @bikes << bike.working
+    @bikes << bike
   end
 
   private

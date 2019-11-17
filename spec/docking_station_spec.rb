@@ -13,6 +13,7 @@ describe DockingStation do
 
   describe '#release_bike' do
     station = DockingStation.new
+    let(:bike) { double :bike }
     it 'raises an error when there are no bikes available' do
       # we want to release the bike we docked
       # the reason we use curly braces instead of parentheses can be explained here
@@ -20,26 +21,25 @@ describe DockingStation do
       expect{ station.release_bike }.to raise_error(RuntimeError, 'No bikes available')
     end
     it 'raises an error when there are no working bikes available' do
-      bike = Bike.new
-      bike.report_defect
-      station.dock(bike)
-      expect { station.release_bike }.to raise_error(RuntimeError, 'No working bikes available')
+      allow(bike).to receive(:report_defect).and_return(false)
+      subject.dock(bike)
+      expect { subject.release_bike }.to raise_error(RuntimeError, 'No working bikes available')
     end
   end
 
   describe '#dock' do
+    let(:bike) { double :bike }
     it 'raises an error when there are no spaces available' do
-      # bike = Bike.new
-      station = DockingStation.new
-      20.times { station.dock Bike.new }
-      expect{ station.dock Bike.new }.to raise_error(RuntimeError, 'No spaces available')
+      allow(bike).to receive(:report_defect).and_return(false)
+      20.times { subject.dock bike }
+      expect{ subject.dock bike }.to raise_error(RuntimeError, 'No spaces available')
     end
     it 'can store broken bikes' do
       station = DockingStation.new
-      bike = Bike.new
-      bike.report_defect
+      allow(bike).to receive(:report_defect).and_return(false)
       station.dock(bike)
-      expect( station.bikes.first ).to eq(false)
+      bike.report_defect
+      expect( station.bikes).to eq([bike])
     end
   end
 
